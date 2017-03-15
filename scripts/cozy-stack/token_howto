@@ -1,0 +1,4 @@
+
+export COZY_CLIENT_ID=$(cozy-stack instances client-oauth localhost:8080 http://localhost/ test github.com/cozy/test)
+export COZY_STACK_TOKEN=$(cozy-stack instances token-oauth localhost:8080 "$COZY_CLIENT_ID" io.cozy.recipients)
+curl -H "Authorization: Bearer $COZY_STACK_TOKEN" ...

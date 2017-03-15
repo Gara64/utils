@@ -1,0 +1,20 @@
+{
+    "permissions": {
+        "tests": {
+            "description": "test",
+            "type": "io.cozy.tests",
+            "verbs": ["GET","POST"],
+            "values": ["test-id"]
+        }
+    },
+    "recipients": [
+        {
+        "recipient": {
+            "type": "io.cozy.recipients",
+            "id": "53cb242c5c05fbcafa344f390101220c"
+        }
+        }
+
+    ],
+    "sharing_type": "one-shot"
+}
