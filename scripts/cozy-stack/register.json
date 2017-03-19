@@ -1,10 +1,7 @@
 {
-  "redirect_uris": ["http://localhost:8080/sharings/answer"],
-  "client_name": "Client",
+  "redirect_uris": ["http://cozy1:8080/sharings/answer"],
+  "client_name": "Cozy1",
   "software_id": "github.com/example/client",
-  "software_version": "2.0.1",
-  "client_kind": "web",
-  "client_uri": "https://client.example.org/",
-  "logo_uri": "https://client.example.org/logo.svg",
-  "policy_uri": "https://client/example.org/policy"
+  "client_kind": "sharing",
+  "client_uri": "http://cozy1:8080/",
 }

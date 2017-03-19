@@ -1,11 +1,4 @@
 {
     "email":"toto@fr",
-    "URL":"url.fr",
-    "client":{
-        "client_id":"53cb242c5c05fbcafa344f3901012163",
-        "sotware_id": "github.com/example/client",
-        "client_name": "Client",
-        "redirect_uris": ["http://localhost:8080/sharings/answer"]
-    }
-
+    "URL":"cozy2:8080"
 }

@@ -1,6 +1,6 @@
 ## Add the instance name in /etc/hosts
-127.0.0.01 cozy1
-127.0.0.01 cozy2
+127.0.0.1 cozy1
+127.0.0.1 cozy2
 
 ## Create dev instance with passphrase : 
 cozy-stack instances add --dev --passphrase cozy cozy1:8080

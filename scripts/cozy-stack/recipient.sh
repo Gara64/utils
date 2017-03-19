@@ -1,3 +1,3 @@
-token=$(<recipient.token)
+#!/bin/bash
 
-curl -X POST -H "Authorization: Bearer $token" -H 'Host: cozy1:8080' -H 'Accept: application/json' -H 'Content-Type: application/json' http://localhost:8080/data/io.cozy.recipients/ -d @recipient.json
+curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' http://cozy1:8080/sharings/recipient -d @recipient.json
