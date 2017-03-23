@@ -18,7 +18,7 @@ DOC_ID=$1
 RECIPIENT_JSON='
 {
     "email": "b@ob.fr",
-    "url": "'$RECIPIENT'"
+    "url": "http://'$RECIPIENT'"
 }
 '
 res=$(curl -X POST -H 'Accept: application/json' -H 'Content-Type: application/json' $SHARER/sharings/recipient -d "$RECIPIENT_JSON" | jq '{id: .data.id, client_id: .data.attributes.Client.client_id'})
@@ -80,6 +80,6 @@ csrf=$(cat "$CSRF_FILE" |grep csrf | rev | cut -d$'\t' -f1 | rev)
 auth_cookie="_csrf=$csrf; $cookie" 
 
 # Post authorize with cookie and redirect (-L) option
-curl -L -H "Cookie: $auth_cookie" "$RECIPIENT/auth/authorize" -d "csrf_token=$csrf&state=$SHARING_ID&scope=$scope&response_type=code&redirect_uri=$redirect_uri&client_id=$CLIENT_ID"
+curl -Lv -H "Cookie: $auth_cookie" "$RECIPIENT/auth/authorize" -d "csrf_token=$csrf&state=$SHARING_ID&scope=$scope&response_type=code&redirect_uri=$redirect_uri&client_id=$CLIENT_ID"
 
 
