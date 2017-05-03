@@ -1,12 +1,15 @@
 #!/bin/bash
 
-DEFAULT_HOST="cozy1:8080"
+DEFAULT_HOST="cozy1.local:8080"
 
 # check the parameters 
-if [ $# -lt 2 ] || [ $# -gt 4 ]; then
+if [ $# -lt 2 ]; then
     echo "Usage : $0 type docid [host] [token]"
     exit 1
 fi
+
+TYPE=$1
+DOC_ID=$2
 
 # Host specfied
 if [ -z $3 ]; then
@@ -15,11 +18,13 @@ else
     HOST=$3
 fi
 
-# Token defined for authorization
-if [ -z $4 ]; then
-    curl -v "$HOST/data/$1/$2"
+# Get token
+if [ -z "$4" ]; then
+    TOKEN=$(./generate_token.sh $TYPE $HOST)
 else
-    curl -v  -H "Authorization: Bearer $4" "$HOST/data/$1/$2"
+    TOKEN=$4
 fi
+
+curl  -H "Authorization: Bearer $TOKEN" "$HOST/data/$TYPE/$DOC_ID"
 
 

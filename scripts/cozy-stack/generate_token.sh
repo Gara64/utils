@@ -15,7 +15,7 @@ else
 fi
 DOCTYPE=$1
 
-COZY_CLIENT_ID=$(cozy-stack instances client-oauth cozy1:8080 $HOST test github.com/cozy/test)
+COZY_CLIENT_ID=$(cozy-stack instances client-oauth $HOST http://localhost test github.com/cozy/test)
 
 COZY_STACK_TOKEN=$(cozy-stack instances token-oauth $HOST $COZY_CLIENT_ID $DOCTYPE)
 

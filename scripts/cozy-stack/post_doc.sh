@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DEFAULT_HOST="cozy1:8080"
+DEFAULT_HOST="cozy1.local:8080"
 
 # check the parameters
-if [ $# -lt 2 ] || [ $# -gt 4 ]; then
+if [ $# -lt 2 ] || [ $# -gt 3 ]; then
     echo "Usage : $0 type json_file [host] [token]"
     exit 1
 fi
@@ -18,12 +18,13 @@ else
     HOST=$3
 fi
 
-
-# Token defined for authorization
+# Get token
 if [ -z "$4" ]; then
-    curl -v -H "Host: $HOST" -H "Content-Type: application/json" "$HOST/data/$TYPE/" -d @$FILE
+    TOKEN=$(./generate_token.sh $TYPE $HOST)
 else
-    curl -v -H "Host: $HOST" -H "Authorization: Bearer $4" -H "Content-Type: application/json" "$HOST/data/$TYPE/" -d @$FILE
+    TOKEN=$4
 fi
+
+curl -v -H "Host: $HOST" -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" "$HOST/data/$TYPE/" -d @$FILE
 
 

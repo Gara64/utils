@@ -9,11 +9,11 @@ SHARING_TYPE='master-master'
 
 # check the parameters
 if [ $# -lt 1 ] ; then
-    echo "Usage : $0 docid [is_file]"
+    echo "Usage : $0 value [is_file]"
     exit 1
 fi
 
-DOC_ID=$1
+VAL=$1
 IS_FILE=$2
 
 ######### Step 1: create recipient: insert and register
@@ -35,10 +35,12 @@ RECIPIENT_ID=$(echo "$res" | jq --raw-output '.id')
 
 if [ -z "$IS_FILE" ]; then
     TYPE="io.cozy.tests"
-    VALUES='["'$DOC_ID'"]'
+    VALUES='["'$VAL'"]'
+    SELECTOR="selectortest"
 else
     TYPE="io.cozy.files"
-    VALUES='["'$DOC_ID'"]'
+    VALUES='["'$VAL'", "io.cozy.sharings.shared-with-me-dir"]'
+    SELECTOR="referenced_by"
 fi
 
 echo "values : $VALUES"
@@ -47,10 +49,16 @@ echo "type : $TYPE"
 SHARING_JSON='
 {
     "permissions": {
-        "tests": {
+        "io.cozy.photos.albums": {
             "description": "test desc",
             "type": "'$TYPE'",
-            "values": '$VALUES'
+            "values": ["'$VAL'"],
+            "selector": "'$SELECTOR'"
+        },
+        "album": {
+            "description": "test desc2",
+            "type": "io.cozy.photos.albums",
+            "values": ["'$VAL'"]
         }
     },
     "recipients": [
@@ -66,6 +74,8 @@ SHARING_JSON='
 }
 '
 
+echo $SHARING_JSON
+
 sharing_res=$(curl -X POST -H 'Content-Type: application/json' $SHARER/sharings/ -d "$SHARING_JSON")
 
 SHARING_ID=$(echo "$sharing_res" |jq --raw-output '.data.attributes.sharing_id')
@@ -76,9 +86,11 @@ echo "Client ID : $CLIENT_ID"
 
 ######### Step 3: generate sharing url 
 if [ -z "$IS_FILE" ]; then
-    scope="$TYPE:GET,POST,PUT,DELETE:$DOC_ID"
+    scope="$TYPE:GET,POST,PUT,DELETE:$VAL:$SELECTOR"
+    echo "!! not file"
 else
-    scope="$TYPE:GET,POST,PUT,DELETE:$DOC_ID"
+    echo "!!file"
+    scope="$TYPE:GET,POST,PUT,DELETE:$VAL:$SELECTOR%20io.cozy.photos.albums:GET,POST,PUT,DELETE:$VAL"
 fi
 redirect_uri="$SHARER/sharings/answer"
 
